@@ -6,6 +6,7 @@ class Student(models.Model):
     student_id = models.TextField(primary_key=True)
     full_name = models.TextField()
     email = models.TextField()
+    password = models.TextField(default=student_id)  # Add a default value for password
 
     def __str__(self):
         return self.full_name
