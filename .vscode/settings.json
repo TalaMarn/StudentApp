@@ -1,0 +1,8 @@
+{
+    "chat.tools.terminal.autoApprove": {
+        "/^Set-Location MNCStudentApp; python manage\\.py makemigrations --check --dry-run$/": {
+            "approve": true,
+            "matchCommandLine": true
+        }
+    }
+}

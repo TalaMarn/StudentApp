@@ -1,12 +1,23 @@
 from django.db import models
 
 # Create your models here.
+class Profile(models.Model):
 
-class Student(models.Model):
-    student_id = models.TextField(primary_key=True)
+    role_choices = [
+        ('student', 'Student'),
+        ('instructor', 'Instructor'),
+        ('admin', 'Admin')
+    ]
+    user_id = models.TextField(primary_key=True)
     full_name = models.TextField()
     email = models.TextField()
-    password = models.TextField(default=student_id)  # Add a default value for password
+    password = models.TextField(blank=True, editable=True)
+    role = models.TextField(choices=role_choices, default='student')
+
+    def save(self, *args, **kwargs):
+        if not self.password:
+            self.password = self.user_id
+        super().save(*args, **kwargs)
 
     def __str__(self):
         return self.full_name
@@ -20,7 +31,7 @@ class Course(models.Model):
         return self.course_name
 
 class Enrollment(models.Model):
-    student = models.ForeignKey(Student, on_delete=models.CASCADE)
+    student = models.ForeignKey(Profile, on_delete=models.CASCADE)
     course = models.ForeignKey(Course, on_delete=models.CASCADE)
     enrollment_date = models.DateField()
     grade =models.FloatField(null=True, blank=True)
