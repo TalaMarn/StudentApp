@@ -2,26 +2,14 @@ from django.db import models
 
 # Create your models here.
 class Profile(models.Model):
-
-    role_choices = [
-        ('student', 'Student'),
-        ('instructor', 'Instructor'),
-        ('admin', 'Admin')
-    ]
     user_id = models.TextField(primary_key=True)
     full_name = models.TextField()
-    email = models.TextField()
-    password = models.TextField(blank=True, editable=True)
-    role = models.TextField(choices=role_choices, default='student')
-
-    def save(self, *args, **kwargs):
-        if not self.password:
-            self.password = self.user_id
-        super().save(*args, **kwargs)
+    email = models.EmailField()
+    role = models.TextField(choices=[('student', 'Student'), ('admin', 'Admin')])
+    password = models.TextField(blank=True, editable=False)
 
     def __str__(self):
         return self.full_name
-
 class Course(models.Model):
     course_id = models.TextField(primary_key=True)
     course_name = models.TextField()
